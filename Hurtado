@@ -1,0 +1,408 @@
+package pkg121hurtado;
+public abstract class CSimple {
+    protected int ini,fin,max;
+    protected Object v[]=new Object[100];
+    CSimple(int va){
+        ini=0;fin=0;max=va;
+    }
+    boolean esLlena(){
+        if(fin==max) return true;
+        else return false;
+    }
+    boolean esVacia(){
+        if((ini==0)&&(fin==0)) return true;
+        else  return false;
+    }
+    abstract void adicionar(Object ele);
+    abstract Object eliminar();
+    abstract void mostrar();
+    abstract int nElem();
+}
+
+
+package pkg121hurtado;
+public class CNormal extends CSimple {
+    CNormal(int vc){
+        super(vc);
+    }
+    boolean esLlena(){
+        return (super.esLlena());
+    }
+    boolean esVacia(){
+        return (super.esVacia());
+    }
+    void adicionar(Object ele){
+        if(!esLlena()){
+            if(esVacia()){
+                ini=1;
+                fin=fin+1;
+                v[fin]=ele;
+            }
+        }else System.out.println("Cola  Llena");
+    }
+    Object eliminar(){
+        Object dato=null;
+        if(esVacia()) System.out.println("Cola Vacia");
+        else{
+            dato=v[ini];
+            ini=ini+1;
+            if(ini>fin){
+                ini=0;fin=0;
+            }
+        }
+        return(dato);
+    }
+    void mostrar(){
+        CNormal aux=new CNormal(max);
+        Object da;
+        while(!esVacia()){
+            da=eliminar();
+            System.out.println("/t"+da);
+            aux.adicionar(da);
+        }
+        while(!aux.esVacia()){
+            adicionar(aux.eliminar());
+        }
+        
+    }
+    int nElem(){
+        if(esVacia()) return 0;
+        else return (fin-ini+1);
+    }
+}
+
+import java.util.Scanner;
+
+
+public class main {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        Object da;
+        CCircular A=new CCircular(8);
+        CCircular B=new CCircular(8);
+        Scanner leer=new Scanner(System.in);
+        System.out.println("leer nro de elemntos cola circular A");
+        int n=leer.nextInt();
+        for(int i=1;i<=n;i++){
+            System.out.println("dato nro"+i+"de"+n);
+            da=leer.nextInt();
+            A.adicionar(da);
+        }
+        System.out.println("leer nro de elemntos cola circular B");
+        n=leer.nextInt();
+        for(int i=1;i<=n;i++){
+            System.out.println("dato nro"+i+"de"+n);
+            da=leer.nextInt();
+            B.adicionar(da);
+        }
+        Pila k=new Pila(20);
+        while(!A.esVacia() || !B.esVacia()){
+            Object ele1=A.eliminar();
+            Object ele2=A.eliminar();
+            Object ele3=B.eliminar();
+            Object ele4=B.eliminar();
+            if (ele2.hashCode()<ele4.hashCode()) {
+                k.adicionar(ele1);
+                k.adicionar(ele2);
+                k.adicionar(ele3);
+                k.adicionar(ele4);
+               
+            } else {
+                k.adicionar(ele3);
+                k.adicionar(ele4);
+                k.adicionar(ele1);
+                k.adicionar(ele2);
+            }
+        }
+        System.out.println("mostrandon datos pila");
+        k.mostrar();
+        
+        
+    }
+    
+}
+
+
+
+public class Pila {
+     private int tope, max;
+        Object[] v = new Object[100];
+        Pila(int ca) {
+            max = ca;
+            tope = 0;
+        }   
+        boolean esLlena() {
+            if (tope == max)
+                return true;
+            else
+                return false;
+        }
+        boolean esVacia () {
+            if (tope == 0)
+                return true;
+            else
+                return false;
+        }
+        int nElem() {
+            return tope;
+        }
+        public void adicionar(Object item) {
+            if (!esLlena()) {
+                tope++;
+                v[tope] = item;
+            }else
+                System.out.println("Pila llena");
+        }
+        Object eliminar() {
+            Object item = null;
+            if (esVacia ())
+                System.out.println("Pila vacia");
+            else {
+                item = v[tope];
+                tope--;
+            }
+            return item;
+        }
+        public void vaciar(Pila B) {
+            while (!B. esVacia ())
+                adicionar(B.eliminar());
+        }
+        public void mostrar() {
+            Object item;
+            Pila aux = new Pila(max);
+            while (!esVacia())
+                aux.adicionar(eliminar());
+            while (!aux.esVacia()) {
+                item = aux.eliminar();
+                System.out.println(item);
+                adicionar(item);
+            }
+        }
+}
+
+
+
+public abstract class CSimple {
+    protected int ini,fin,max;
+    protected Object v[]=new Object[100];
+    CSimple(int va){
+        ini=0;fin=0;max=va;
+    }
+    boolean esLlena(){
+        if(fin==max) return true;
+        else return false;
+    }
+    boolean esVacia(){
+        if((ini==0)&&(fin==0)) return true;
+        else  return false;
+    }
+    abstract void adicionar(Object ele);
+    abstract Object eliminar();
+    abstract void mostrar();
+    abstract int nElem();
+}
+
+
+
+public class CCircular extends CSimple {
+    
+    CCircular(int cc){
+        super(cc);
+    }
+    boolean esVacia ()
+    {
+        if (nElem()==0) return true;
+        else return false;
+    }
+    boolean esLlena ()
+    {
+        if (nElem() == max-1)
+            return (true);
+        return (false);
+    }
+    int nroElem ()
+    {
+        return (fin - ini);
+    }
+    void adicionar (Object ele)
+    {
+        if (esLlena()) System.out.println("cola llena");
+        else{
+            fin=(fin+1)%max;
+            v[fin]=ele;
+        }
+    }
+    Object eliminar ()
+    {
+        Object da = null;
+        if (esVacia ()) System.out.println("Cola vacia");
+        
+        else{
+            ini=(ini+1)%max;
+            da=v[ini];
+        }
+            
+        return da;
+    }
+    void mostrar ()
+    {
+        int ne,i;Object dato;
+        ne=nElem();
+        for (i = 1; i <= ne; i++) {
+            dato=eliminar();
+            System.out.println("n/t"+dato);
+            adicionar(dato);
+        }
+        
+    }
+    
+    /*void vaciar (ColaCircularCasos a)
+    {
+        while (!a.esvacia ())
+            adicionar (a.eliminar ());
+    
+    }*/
+    int nElem(){
+        return ((fin-ini+max)%max);
+    }
+}
+
+
+
+
+
+package ej1;
+
+import java.util.Scanner;
+
+public class main {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        Object da;
+        CSCircular A=new CSCircular(10);
+       
+        Scanner leer=new Scanner(System.in);
+        System.out.println("leer nro de elemntos cola circular A");
+        int n=leer.nextInt();
+        for(int i=1;i<=n;i++){
+            System.out.println("dato nro"+i+"de"+n);
+            da=leer.nextInt();
+            A.adicionar(da);
+        }
+        A.mostrar();
+        //insertar antes y despues del elemento maximo
+        Object var=0;
+        Object aux;
+        
+            for (int i = 1; i <= 10; i++) {
+                  aux=A.eliminar();
+                  A.adicionar(aux);
+                if (aux.hashCode()>=var.hashCode()) {
+                     var=aux;
+                } 
+            }
+            System.out.println("el maor es"+var);
+        //adicionar izquierda yb deracha
+            
+        }
+    }
+
+
+
+
+
+package ej1;
+
+public abstract class CSimple {
+    protected int ini,fin,max;
+    protected Object v[]=new Object[100];
+    CSimple(int va){
+        ini=0;fin=0;max=va;
+    }
+    boolean esLlena(){
+        if(fin==max) return true;
+        else return false;
+    }
+    boolean esVacia(){
+        if((ini==0)&&(fin==0)) return true;
+        else  return false;
+    }
+    abstract void adicionar(Object ele);
+    abstract Object eliminar();
+    abstract void mostrar();
+    abstract int nElem();
+}
+
+
+
+
+package ej1;
+
+ public class CSCircular extends CSimple {
+    
+    CSCircular(int cc){
+        super(cc);
+    }
+    boolean esVacia ()
+    {
+        if (nElem()==0) return true;
+        else return false;
+    }
+    boolean esLlena ()
+    {
+        if (nElem() == max-1)
+            return (true);
+        return (false);
+    }
+    int nroElem ()
+    {
+        return (fin - ini);
+    }
+    void adicionar (Object ele)
+    {
+        if (esLlena()) System.out.println("cola llena");
+        else{
+            fin=(fin+1)%max;
+            v[fin]=ele;
+        }
+    }
+    Object eliminar ()
+    {
+        Object da = null;
+        if (esVacia ()) System.out.println("Cola vacia");
+        
+        else{
+            ini=(ini+1)%max;
+            da=v[ini];
+        }
+            
+        return da;
+    }
+    void mostrar ()
+    {
+        int ne,i;Object dato;
+        ne=nElem();
+        for (i = 1; i <= ne; i++) {
+            dato=eliminar();
+            System.out.println(i+"n/t ;"+dato);
+            adicionar(dato);
+        }
+        
+    }
+    
+    /*void vaciar (ColaCircularCasos a)
+    {
+        while (!a.esvacia ())
+            adicionar (a.eliminar ());
+    
+    }*/
+    int nElem(){
+        return ((fin-ini+max)%max);
+    }
+}
