@@ -1,0 +1,45 @@
+package multiplePila;
+
+import java.util.Scanner;
+
+
+public class Principal {
+
+    public static void main(String[] args) {
+        PilaMul a = new PilaMul(100);
+        int n,ni,c;
+        Object ele;
+        Scanner lee = new Scanner(System.in);
+        System.out.println("Ingrese Nro de Pilas");
+        n = lee.nextInt();
+        for(int i=1; i<=n; i++){
+            System.out.println("Capacidad de la pila: "+ i);
+            c = lee.nextInt();
+            a.crearPila(i,c);
+            System.out.println("Nro de elementos de la Pila: "+ i);
+            ni = lee.nextInt();
+            for(int j=1; j<=ni; j++){
+                ele = (Object)lee.nextInt();
+                a.adicionar(i, ele);
+            }
+        }
+        
+        a.mostrar();
+        
+                //mostrar pila con mas datos
+        
+        int max = 0;
+        for(int i=1; i<=n; i++){
+            ni = a.nElem(i);
+            if(ni>max)
+                max = ni;
+        }
+        System.out.println("\nPila con mas elementos:");
+        
+        for(int i=1; i<=n; i++){
+            if(a.nElem(i) == max){
+                a.mostrar(i);
+            }      
+        }
+    }
+}
