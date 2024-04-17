@@ -1,0 +1,138 @@
+package colasmultiples;
+
+import java.util.Scanner;
+
+public class ColasMultiples {
+
+    public static void main(String[] args) {
+        CCCircular b = new CCCircular(100);
+        int np,ci,nc,i,k,ni;
+        Object ele;
+        Scanner leer = new Scanner(System.in);
+        System.out.println("Ingrese nro de colas");
+        nc = leer.nextInt();
+        for(i=1; i<=nc; i++){
+            System.out.println("Capacidad de la cola: "+ i);
+            ci = leer.nextInt();
+            b.creaCSCircular(i, ci);
+            System.out.println("Nro de elemntos de la cola: "+ i);
+            ni = leer.nextInt();
+            for(k=1; k<=ni; k++){
+                ele = leer.nextInt();
+                b.adicionar(ele, i);
+            }
+        }
+        b.mostrar();
+    }
+
+}
+
+
+package colasmultiples;
+
+public abstract class CSimple {
+    protected int ini,fin,max;
+    protected Object v[]=new Object[100];
+    CSimple(int va){
+        ini=0;fin=0;max=va;
+    }
+    abstract boolean esVacia();
+    abstract boolean esLlena();
+    abstract void adicionar(Object ele);
+    abstract Object eliminar();
+    abstract void mostrar();
+    abstract int nElem();
+}
+
+
+package colasmultiples;
+
+public class CSCircular extends CSimple {
+    CSCircular(int cc){
+        super(cc);
+    }
+    boolean esVacia(){
+        if (nElem()==0) {
+            return true;
+        }else return false;
+    }
+    boolean esLlena(){
+        if (nElem()==max-1) {
+            return true;
+        }else return false;
+    }
+    void adicionar(Object ele){
+        if (!esLlena()) {
+            fin=(fin+1)% max;
+            v[fin]=ele;
+            
+        }else{
+            System.out.println("cola llena");
+        }
+    }
+    Object eliminar(){
+        Object dato=null;
+        if (!esVacia()) {
+            ini=(ini+1)%max;
+            dato=v[ini];
+        }else{
+            System.out.println("cola vacia");
+        }
+        return dato;
+    }
+    void mostrar(){
+        Object da;
+        int ne=nElem();
+        for (int i = 0; i < ne; i++) {
+            da=eliminar();
+            System.out.print("\t"+da);
+            adicionar(da);
+        }
+    }
+    int nElem(){
+        return ((fin-ini+max)%max);
+    }
+}
+
+package colasmultiples;
+
+public class CCCircular {
+    int ncc, max;
+    CSCircular ccc[] = new CSCircular [100];
+    CCCircular(int cc){
+        max = cc;
+        ncc = 0;
+    }
+    boolean esVacia(int i){
+        return ccc[i].esVacia();
+    }
+    boolean esLlena(int i){
+        return ccc[i].esLlena();
+    }
+    void adicionar(Object da, int i){
+        ccc[i].adicionar(da);
+    }
+    Object eliminar(int i){
+        return (ccc[i].eliminar());
+    }
+    void mostrar(int i){
+        ccc[i].mostrar();
+    }
+    void mostrar(){
+        int i;
+        for(i=1; i<=ncc; i++){
+            System.out.println("\nCola: "+ i);
+            mostrar(i);
+        }
+            
+    }
+    void creaCSCircular(int i, int cai){
+        ccc[i] = new CSCircular(cai);
+        ncc = ncc+1;
+    }
+    int nElem(int i){
+        return (ccc[i].nElem());
+    }
+
+}
+
