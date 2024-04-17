@@ -1,0 +1,53 @@
+package multiplePila;
+
+public class PilaMul {
+    int np,max;
+    Pila pm[] = new Pila[100];
+    
+    PilaMul(int cp){
+        np = 0;
+        max = cp;
+    }
+    
+    boolean esVacia(int i){
+        return pm[i].esVacia();
+    }
+    boolean esLlena(int i){
+        return pm[i].esLlena();
+    }
+    void adicionar(int i, Object ele){
+        pm[i].adicionar(ele);
+    }
+    Object eliminar(int i){
+        return pm[i].eliminar();
+    }
+    void mostrar(int i){
+        pm[i].mostrar();
+    }
+    void mostrar(){
+        for(int i=1; i<=np; i++){
+            System.out.println("Pila: "+i);
+            mostrar(i);
+            System.out.println("");
+        }
+    }
+    void crearPila(int i, int ca){
+        pm[i] = new Pila(ca);
+        np = np+1;
+    }
+    
+    int nElem(){
+        int s = 0;
+        for(int i=1; i<=np;i++){
+            s = s+nElem(i);           
+        }
+        return s;
+    }
+    int nElem(int i){
+        return pm[i].nElem();
+    }
+    int getNp(){
+        return np;
+    }
+    
+}
